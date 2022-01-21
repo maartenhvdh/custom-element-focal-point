@@ -8,7 +8,6 @@
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <!-- libs -->
-    <script src="https://app.kontent.ai/js-api/custom-element/v1/custom-element.min.js"></script>
     <script src="script.js"></script>
     <link rel="stylesheet" href="style.scss" />
 
@@ -47,12 +46,6 @@
     </style>
   </head>
   <body>
-    <!-- Custom element HTML -->
-    <!--<div class="disabled_overlay"></div>
-    <div class="color-picker-box">
-      <section id="color-picker"></section>
-    </div>-->
-    <div class="disabled_overlay"></div>
     <div class="viewport desktop">
       <div id="background-container">
       </div>
@@ -74,43 +67,5 @@
         <span id="mobile" class="control"><i class="icon-mobile-phone"></i></span>  
       </div>
     </div>
-    <!-- Custom element code -->
-    <script>
-      var isDisabled = false;
-
-      function updateDisabled(disabled) {
-        isDisabled = disabled;
-        if (disabled) {
-          $(".disabled_overlay").show();
-        } else {
-          $(".disabled_overlay").hide();
-        }
-      }
-
-      function updateSize() {
-        // Update the custom element height in the Kentico UI.
-        const height = Math.ceil($("html").height());
-        CustomElement.setHeight(height);
-      }
-
-      function initCustomElement() {
-        try {
-          CustomElement.init((element, _context) => {
-            // Setup with initial value and disabled state
-            updateDisabled(element.disabled);
-            updateSize();
-          });
-
-          // React on disabled changed (e.g. when publishing the item)
-          CustomElement.onDisabledChanged(updateDisabled);
-        } catch (err) {
-          // Initialization with Kentico Custom element API failed (page displayed outside of the Kentico UI)
-          console.error(err);
-          updateDisabled(true);
-        }
-      }
-
-      initCustomElement();
-    </script>
   </body>
 </html>
