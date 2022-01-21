@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <title>Color Picker</title>
     <!-- libs -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
     <script src="script.js"></script>
     <link rel="stylesheet" href="style.scss" />
 
@@ -44,29 +45,32 @@
   </head>
   <body>
     <!-- Custom element HTML -->
+    <!--<div class="disabled_overlay"></div>
+    <div class="color-picker-box">
+      <section id="color-picker"></section>
+    </div>-->
     <div class="disabled_overlay"></div>
-  <div class="viewport desktop">
-  <div id="background-container">
-  </div>
-</div>
-
-<div id="positioner-container">
-
-  <p class="picker-title">Choose background image focal point:</p>
-  
-  <div id="picker">
-    <img id="focal-img" src="https://images.unsplash.com/photo-1516655855035-d5215bcb5604?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80">
-    <div id="point" class="ui-widget-content"></div>
-  </div>
-  
-  <div class="controls">
-    <span class="results">Position: 0% 0%</span>
-    <span id="desktop" class="control active"><i class="icon-desktop"></i></span>
-    <span id="tablet" class="control"><i class="icon-tablet"></i></span>
-    <span id="mobile" class="control"><i class="icon-mobile-phone"></i></span>  
-  </div>
-</div>
-
+    <div class="viewport desktop">
+      <div id="background-container">
+      </div>
+    </div>
+    
+    <div id="positioner-container">
+    
+      <p class="picker-title">Choose background image focal point:</p>
+      
+      <div id="picker">
+        <img id="focal-img" src="https://images.unsplash.com/photo-1516655855035-d5215bcb5604?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80">
+        <div id="point" class="ui-widget-content"></div>
+      </div>
+      
+      <div class="controls">
+        <span class="results">Position: 0% 0%</span>
+        <span id="desktop" class="control active"><i class="icon-desktop"></i></span>
+        <span id="tablet" class="control"><i class="icon-tablet"></i></span>
+        <span id="mobile" class="control"><i class="icon-mobile-phone"></i></span>  
+      </div>
+    </div>
     <!-- Custom element code -->
     <script>
       var isDisabled = false;
@@ -80,26 +84,6 @@
         }
       }
 
-      function setupColorPicker(hexColorValue) {
-        const container = document.querySelector("#color-picker");
-        const picker = new CP(container, false, container);
-        picker.self.classList.add("static");
-        if (!!hexColorValue) {
-          picker.set(hexColorValue);
-          container.parentNode.style.backgroundColor = hexColorValue;
-        }
-
-        picker.on("change", function(color) {
-          container.parentNode.style.backgroundColor = "#" + color;
-          if (!isDisabled) {
-            // Send updated color to Kentico
-            CustomElement.setValue("#" + color);
-          }
-        });
-
-        picker.enter();
-      }
-
       function updateSize() {
         // Update the custom element height in the Kentico UI.
         const height = Math.ceil($("html").height());
@@ -111,7 +95,6 @@
           CustomElement.init((element, _context) => {
             // Setup with initial value and disabled state
             updateDisabled(element.disabled);
-            setupColorPicker(element.value);
             updateSize();
           });
 
@@ -120,7 +103,6 @@
         } catch (err) {
           // Initialization with Kentico Custom element API failed (page displayed outside of the Kentico UI)
           console.error(err);
-          setupColorPicker();
           updateDisabled(true);
         }
       }
